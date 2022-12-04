@@ -2,3 +2,4 @@ hello world
 -e wrote from jenkins pipeline
 wrote from jenkins pipeline
 04/12/2022_17:57:50: wrote from jenkins pipeline
+04/12/2022_18:07:02: wrote from jenkins pipeline
