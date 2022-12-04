@@ -31,6 +31,7 @@ def prepare() {
 		//  corresponding ssh public should be configured to access repo 
 		sh "git clone -c \"core.sshCommand=ssh -i $private_key\" git@github.com:dmaharana/jenkins-test.git"
 
+		// Any further git operation has to be within this cred block
 		dir(repoName) {
 			sh "echo $text >> test.txt"
 			sh 'git config user.name "Mona Lisa" && git config user.email mona_lisa@example.com'
