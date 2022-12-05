@@ -24,12 +24,14 @@ def prepare() {
 	repoName = 'jenkins-test'
 	text = get_date_time() + ': wrote from jenkins pipeline'
 
-	set_host_key_verify_false()
+	// set_host_key_verify_false()
+	set_known_hosts('github.com')
 
-	withCredentials([file(credentialsId: 'git-private-key', variable: 'private_key')]) {
+	// withCredentials([file(credentialsId: 'git-private-key', variable: 'private_key')]) {
+	withCredentials([sshUserPrivateKey(credentialsId: 'git-ssh-user-key', keyFileVariable: 'private_key', usernameVariable: 'USER')]) {
 		// Refer the ssh private key
 		//  corresponding ssh public should be configured to access repo 
-		sh "git clone -c \"core.sshCommand=ssh -i $private_key\" git@github.com:dmaharana/jenkins-test.git"
+		sh "git clone -c \"core.sshCommand=ssh -i \$private_key\" git@github.com:dmaharana/jenkins-test.git"
 
 		// Any further git operation has to be within this cred block
 		dir(repoName) {
@@ -39,6 +41,10 @@ def prepare() {
 		}
 	}
 
+}
+
+def set_known_hosts(base_url) {
+	sh "ssh-keygen -F $base_url || mkdir -p ~/.ssh/ && ssh-keyscan $base_url >>~/.ssh/known_hosts"
 }
 
 def set_host_key_verify_false() {
