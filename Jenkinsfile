@@ -31,7 +31,7 @@ def prepare() {
 	withCredentials([sshUserPrivateKey(credentialsId: 'git-ssh-user-key', keyFileVariable: 'private_key', usernameVariable: 'USER')]) {
 		// Refer the ssh private key
 		//  corresponding ssh public should be configured to access repo 
-		sh "git clone -c \"core.sshCommand=ssh -i \$private_key\" git@github.com:dmaharana/jenkins-test.git"
+		sh "git clone -c \"core.sshCommand=ssh -i \$private_key\" git@github.com:dmaharana/jenkins-test.git -b $BUILD_BRANCH"
 
 		// Any further git operation has to be within this cred block
 		dir(repoName) {
